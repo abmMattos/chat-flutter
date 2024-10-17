@@ -5,18 +5,27 @@ class FirestorageService {
 
   var db = FirebaseFirestore.instance;
 
-  postFeedback() async {
+  postFeedback(message) async {
 
     try {
-      db.collection('Feedbacks').add({
+      var feedback = await db.collection('Feedbacks').add({
         "user": await FirebaseAuthService().checkUser(),
-        "message": "muito bom",
+        "message": message,
         "photo": "",
         "date": DateTime.now()
       });
+      return feedback;
     } catch (e) {
       throw e;
     }
   }
 
+  getFeedbacks() async {
+    try {
+      var feedbacks = await db.collection('Feedbacks').orderBy('date', descending: true).get();
+      return feedbacks.docs;
+    } catch (e) {
+      throw e;
+    }
+  }
 }

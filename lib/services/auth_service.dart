@@ -25,7 +25,7 @@ class FirebaseAuthService {
   }
 
   checkUser() async {
-    var user = auth.currentUser!.displayName;
+    var user = await auth.currentUser!.displayName;
     return user;
   }
 }
