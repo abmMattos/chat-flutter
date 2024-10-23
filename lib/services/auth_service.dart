@@ -25,7 +25,19 @@ class FirebaseAuthService {
   }
 
   checkUser() async {
-    var user = await auth.currentUser!.displayName;
+    var user = await auth.currentUser!.email;
     return user;
+  }
+
+  
+  register(name, email, password) async {
+    try {
+      var user = await auth.createUserWithEmailAndPassword(
+        email: email, password: password
+      );
+      await user.user!.updateDisplayName(name);
+    } catch (e) {
+      throw e;
+    }
   }
 }
